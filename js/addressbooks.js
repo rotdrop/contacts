@@ -691,7 +691,7 @@ OC.Contacts = OC.Contacts || {};
 				console.log('Contact moved', response);
 				$(document).trigger('status.contact.moved', {
 					contact: contact,
-					data: response.data
+					data: response
 				});
 			} else {
 				$(document).trigger('status.contacts.error', response);
