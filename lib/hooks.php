@@ -106,7 +106,7 @@ class Hooks{
 		\OCP\Util::writeLog('contacts', __METHOD__.' id: '.$parameters['id'], \OCP\Util::DEBUG);
 		$app = new App();
 		$backend = $app->getBackend( (isset($parameters['backend'])) ? $parameters['backend'] :'local' );
-		$ab = $backend->getAddressBook( $parameters['addressBookId'] );
+		$ab = $backend->getAddressBook( $parameters['parent'] );
 
 		$contact = $parameters['contact'];
 		if(isset($contact->CATEGORIES)) {
