@@ -32,8 +32,8 @@ if (substr(OCP\Util::getRequestUri(), 0, strlen(OC_App::getAppWebPath('contacts'
 	$baseuri = OC_App::getAppWebPath('contacts').'/carddav.php';
 }
 
-// only need authentication apps
-$RUNTIME_APPTYPES = array('authentication');
+// only need authentication apps and carddav backends
+$RUNTIME_APPTYPES = array('authentication', 'carddav');
 OC_App::loadApps($RUNTIME_APPTYPES);
 
 // Backends
@@ -43,9 +43,7 @@ $principalBackend = new \OC\Connector\Sabre\Principal(
 	\OC::$server->getUserManager()
 );
 
-$addressbookbackends = array();
-$addressbookbackends[] = new OCA\Contacts\Backend\Database(\OCP\User::getUser());
-$backends = array('local', 'shared');
+$backends = array_keys(OCA\Contacts\App::$backendClasses);
 if (\OCP\Config::getAppValue('contacts', 'backend_ldap', "false") === "true") {
 	$backends[] = 'ldap';
 }
