@@ -74,6 +74,18 @@ class Contact extends VObject\VCard implements IPIMObject {
 				}
 				$this->setRetrieved(true);
 			} elseif (is_array($data)) {
+				// retrieve early as otherwise __set()
+				// implicitly calls retrieve() and
+				// causes a round-trip to the backand
+				// although the data is already there.
+				if (isset($data['carddata'])) {
+					$this->props['carddata'] = $data['carddata'];
+					$this->retrieve();
+				} else if (isset($data['vcard'])) {
+					$this->props['vcard'] = $data['vcard'];
+					$this->retrieve();
+				}
+
 				foreach ($data as $key => $value) {
 					switch ($key) {
 						case 'id':
@@ -87,14 +99,6 @@ class Contact extends VObject\VCard implements IPIMObject {
 							break;
 						case 'uri':
 							$this->props['uri'] = $value;
-							break;
-						case 'carddata':
-							$this->props['carddata'] = $value;
-							$this->retrieve();
-							break;
-						case 'vcard':
-							$this->props['vcard'] = $value;
-							$this->retrieve();
 							break;
 						case 'displayname':
 						case 'fullname':
