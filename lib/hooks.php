@@ -227,6 +227,9 @@ class Hooks{
 		$baseUrl = \OCP\Util::linkTo('calendar', 'ajax/events.php').'?calendar_id=';
 
 		foreach ($addressBooks as $addressBook) {
+			if (!$addressBook->isActive()) {
+				continue;
+			}
 			$info = $addressBook->getMetaData();
 			$parameters['sources'][]
 				= array(
