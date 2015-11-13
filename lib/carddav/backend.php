@@ -184,6 +184,9 @@ class Backend extends \Sabre\CardDAV\Backend\AbstractBackend {
 
 		$cards = array();
 		foreach($contacts as $contact) {
+			if (!isset($contact['carddata']) && isset($contact['vcard'])) {
+				$contact['carddata'] = $contact['vcard']->serialize();
+			}
 			$cards[] = array(
 				'id' => $contact['id'],
 				//'carddata' => $i['carddata'],
@@ -213,6 +216,9 @@ class Backend extends \Sabre\CardDAV\Backend\AbstractBackend {
 			return false;
 		}
 		if(is_array($contact) ) {
+			if (!isset($contact['carddata']) && isset($contact['vcard'])) {
+				$contact['carddata'] = $contact['vcard']->serialize();
+			}
 			$contact['etag'] = '"' . md5($contact['carddata']) . '"';
 			return $contact;
 		}
